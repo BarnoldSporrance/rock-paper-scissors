@@ -2,23 +2,16 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Function library example</title>
-  <style>
-    input {
-      font-size: 2em;
-      margin: 10px 1px 0;
-    }
-  </style>
+  <title>Rock-Paper-Scissors-Project-TOP</title>
 </head>
 <body>
+  <p id="displayResult"></p>
 <script>
-
+  let para = document.getElementById("displayResult");
 // function to make computer play a single shot
 function computerPlay(){
-  //let computerSelection;
   let computerNumber = Math.floor(Math.random()*3)
   switch (computerNumber) {
-     
     case 0:
       computerTry = "rock";
       break;
@@ -31,73 +24,60 @@ function computerPlay(){
   return computerTry;
 } // end computerPlay
 
-
-
-
-
-
+// function to play one round
 function oneRound(playerSelection, computerSelection) {
-  
   let oneRoundResult = "";
   if ((playerSelection === "rock" && computerSelection === "scissors") ||  (playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")) {
       oneRoundResult = "You win! " + playerSelection + " beats " + computerSelection;
   } else if ((playerSelection === "rock" && computerSelection === "paper") ||  (playerSelection === "paper" && computerSelection === "scissors") || (playerSelection === "scissors" && computerSelection === "rock")) {
-    oneRoundResult = "You lose! " + computerSelection + " beats " + playerSelection;
-  } else {
-    oneRoundResult = "It's a draw! " + playerSelection + " and " + computerSelection + " cancel each other out";
-  }
+      oneRoundResult = "You lose! " + computerSelection + " beats " + playerSelection;
+    } else {
+      oneRoundResult = "It's a draw! " + playerSelection + " and " + computerSelection + " cancel each other out";
+    }
   return oneRoundResult;
-}
+} // end oneRound
 
- 
-
+// function to play the game
  function game() {
-   //console.log("playerSelection inside game: " + playerSelection);
-   //console.log("computerSelection inside game: " + computerSelection);
    let playerScore = 0;
    let computerScore = 0;
+   let finalStandings = "";
+   // loop round five times
    for (let i = 0; i < 5; i++) {
-    
-
+    // get player choice
     let playerChoice = prompt("Choose - rock, paper, of scissors.Type your choice in the box.");
     playerChoice = playerChoice.toLowerCase();
- 
+    // get computer choice
     let computerChoice = computerPlay();
-
+    // play one round
     let roundResult = oneRound(playerChoice, computerChoice);
+
+    //increment score for player and computer after each round
     if (roundResult.includes("win")){
-      console.log("win");
       playerScore++;
     } else if (roundResult.includes("lose")){
-      console.log("lose");
-      computerScore++;
-    } else if (roundResult.includes("draw")){
-      console.log("draw");
-    }
+        computerScore++;
+      } else if (roundResult.includes("draw")){
+      }
     console.log(roundResult);
-   // console.log("playerScore: " + playerScore);
-    //console.log("computerScore: " + computerScore);
-    
     } // end for
     console.log("playerScore: " + playerScore);
     console.log("computerScore: " + computerScore);
     if (playerScore > computerScore) {
       console.log("Congratulations! You are the winner!");
+      finalStandings = "Congratulations! You are the winner!";
     } else if (computerScore > playerScore) {
-      console.log("Bad luck! The computer was the victor");
-    } else if (playerScore === computerScore) {
-      console.log("It ends up a draw!");
-    }
-    
-    // return roundResult;
-     
-     } // end game
-  
- 
-//console.log(game());
-
-game();
-    
+        console.log("Bad luck! The computer was the victor");
+        finalStandings = "Bad luck! The computer was the victor";
+        } else if (playerScore === computerScore) {
+            console.log("It ends up a draw!");
+            finalStandings = "It ends up a draw!";
+           } 
+    return finalStandings;
+  } // end game
+// Play the game
+let resultText = document.createTextNode(game());
+para.appendChild(resultText);
 </script>
 </body>
 </html>
