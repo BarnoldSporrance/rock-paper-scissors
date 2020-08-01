@@ -11,12 +11,52 @@
   </style>
 </head>
 <body>
+<script>
 
-  
+// function to make computer play a single shot
+function computerPlay(){
+  //let computerSelection;
+  let computerNumber = Math.floor(Math.random()*3)
+  switch (computerNumber) {
+     
+    case 0:
+      computerTry = "rock";
+      break;
+    case 1:
+      computerTry = "paper";
+      break;
+    case 2:
+      computerTry = "scissors";
+  } // end switch
+  return computerTry;
+} // end computerPlay
 
-  <script>
+let playerChoice = prompt("Choose - rock, paper, of scissors.Type your choice in the box.");
+playerChoice = playerChoice.toLowerCase();
+//console.log("playerChoice: " + playerChoice);
+
+let computerChoice = computerPlay();
+//console.log("computerChoice: " + computerChoice);
+
+
+
+function oneRound(playerSelection, computerSelection) {
+  //console.log("playerSelection: " + playerSelection);
+  //console.log("computerSelection: " + computerSelection);
+  let oneRoundResult = "";
+  if ((playerSelection === "rock" && computerSelection === "scissors") ||  (playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")) {
+      oneRoundResult = "You win! " + playerSelection + " beats " + computerSelection;
+  } else if ((playerSelection === "rock" && computerSelection === "paper") ||  (playerSelection === "paper" && computerSelection === "scissors") || (playerSelection === "scissors" && computerSelection === "rock")) {
+    oneRoundResult = "You lose! " + computerSelection + " beats " + playerSelection;
+  } else {
+    oneRoundResult = "It's a draw! " + playerSelection + " and " + computerSelection + " cancel each other out";
+  }
+  return oneRoundResult;
+}
+
+ console.log(oneRound(playerChoice, computerChoice));
 
     
-  </script>
+</script>
 </body>
 </html>
