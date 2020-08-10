@@ -5,26 +5,24 @@
   <title>Rock-Paper-Scissors-Project-TOP</title>
 </head>
 <body>
-  <p id="displayResult"></p>
-<script>
-  let para = document.getElementById("displayResult");
-// function to make computer play a single shot
-function computerPlay(){
-  let computerNumber = Math.floor(Math.random()*3)
-  switch (computerNumber) {
-    case 0:
-      computerTry = "rock";
-      break;
-    case 1:
-      computerTry = "paper";
-      break;
-    case 2:
-      computerTry = "scissors";
-  } // end switch
-  return computerTry;
-} // end computerPlay
 
-// function to play one round
+  <div>
+    <button id="rock">Rock</button>
+    <button id ="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+  </div>
+
+  <div id="displayResults">
+
+  </div>
+
+  <p id="displayResult"></p>
+
+<script>
+
+  let standings = document.getElementById("displayResults");
+
+  // function to play one round
 function oneRound(playerSelection, computerSelection) {
   let oneRoundResult = "";
   if ((playerSelection === "rock" && computerSelection === "scissors") ||  (playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")) {
@@ -37,47 +35,92 @@ function oneRound(playerSelection, computerSelection) {
   return oneRoundResult;
 } // end oneRound
 
+  // function to make computer play a single shot
+  function computerPlay(){
+    let computerNumber = Math.floor(Math.random()*3)
+      switch (computerNumber) {
+        case 0:
+        computerTry = "rock";
+        break;
+        case 1:
+        computerTry = "paper";
+        break;
+        case 2:
+        computerTry = "scissors";
+      } // end switch
+    return computerTry;
+  } // end computerPlay
+
+  // function to complete a round
+  function completeOneRound() {
+    const buttons = document.querySelectorAll('button');
+     buttons.forEach((button) => {
+       button.addEventListener('click',(e) => {
+         let playerSelection = e.target.id;
+         console.log(playerSelection);
+        // Get computer selection
+        let computerSelection = computerPlay();
+        console.log(computerSelection);
+        // play one round
+        let oneRoundResult = oneRound(playerSelection, computerSelection);
+
+        // Display results of a round on the page
+        let playerSelectP = document.createElement('p');
+        playerSelectP.textContent = `You chose '${playerSelection}'.`;
+        standings.appendChild(playerSelectP);
+
+        let computerSelectP = document.createElement('p');
+        computerSelectP.textContent = `The computer chose '${computerSelection}'.`;
+        standings.appendChild(computerSelectP);
+
+        let oneRoundResultP = document.createElement('p');
+        oneRoundResultP.textContent = oneRoundResult;
+        standings.appendChild(oneRoundResultP);
+
+        keepScore(oneRoundResult);
+        // mmm
+        
+
+     }); 
+    });
+  }
+
+completeOneRound();
+
+
+
 // function to play the game
- function game() {
+ function keepScore(oneRoundResult) {
    let playerScore = 0;
    let computerScore = 0;
    let finalStandings = "";
-   // loop round five times
-   for (let i = 0; i < 5; i++) {
-    // get player choice
-    let playerChoice = prompt("Choose - rock, paper, of scissors.Type your choice in the box.");
-    playerChoice = playerChoice.toLowerCase();
-    // get computer choice
-    let computerChoice = computerPlay();
-    // play one round
-    let roundResult = oneRound(playerChoice, computerChoice);
-
     //increment score for player and computer after each round
-    if (roundResult.includes("win")){
+    if (oneRoundResult.includes("win")){
       playerScore++;
-    } else if (roundResult.includes("lose")){
+      console.log("playerScore: " + playerScore);
+    } else if (oneRoundResult.includes("lose")){
         computerScore++;
-      } else if (roundResult.includes("draw")){
+        console.log("computerScore: " + computerScore);
+      } else if (oneRoundResult.includes("draw")){
       }
-    console.log(roundResult);
-    } // end for
-    console.log("playerScore: " + playerScore);
-    console.log("computerScore: " + computerScore);
-    if (playerScore > computerScore) {
-      console.log("Congratulations! You are the winner!");
+    console.log(oneRoundResult);
+    return oneRoundResult;
+    //} // end for
+    
+    /*if (playerScore > computerScore) {
       finalStandings = "Congratulations! You are the winner!";
     } else if (computerScore > playerScore) {
-        console.log("Bad luck! The computer was the victor");
         finalStandings = "Bad luck! The computer was the victor";
         } else if (playerScore === computerScore) {
-            console.log("It ends up a draw!");
             finalStandings = "It ends up a draw!";
            } 
     return finalStandings;
+    */
   } // end game
-// Play the game
-let resultText = document.createTextNode(game());
-para.appendChild(resultText);
+// Play the game and display result on page
+//let resultText = document.createTextNode(game());
+//para.appendChild(resultText);
+
 </script>
 </body>
 </html>
