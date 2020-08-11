@@ -12,18 +12,32 @@
     <button id="scissors">Scissors</button>
   </div>
 
-  <div id="displayResults">
+  <div id="displayResults"></div>
+      <div id = "playerTotal">
+      </div>
+      <div id="computerTotal">
+      </div>
+  <div id="displayScores">
 
   </div>
-
-  <p id="displayResult"></p>
 
 <script>
 
   let standings = document.getElementById("displayResults");
 
+  let playerRunningTotal = document.getElementById("playerTotal");
+  let computerRunningTotal = document.getElementById("computerTotal");
+
+
   // function to play one round
 function oneRound(playerSelection, computerSelection) {
+   
+
+  while (standings.firstChild) {
+    standings.firstChild.remove();
+  }
+
+
   let oneRoundResult = "";
   if ((playerSelection === "rock" && computerSelection === "scissors") ||  (playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")) {
       oneRoundResult = "You win! " + playerSelection + " beats " + computerSelection;
@@ -51,16 +65,18 @@ function oneRound(playerSelection, computerSelection) {
     return computerTry;
   } // end computerPlay
 
+  let playerScore = 0;
+  let computerScore = 0;
+  let finalStandings = "";
+
   // function to complete a round
   function completeOneRound() {
     const buttons = document.querySelectorAll('button');
      buttons.forEach((button) => {
        button.addEventListener('click',(e) => {
          let playerSelection = e.target.id;
-         console.log(playerSelection);
         // Get computer selection
         let computerSelection = computerPlay();
-        console.log(computerSelection);
         // play one round
         let oneRoundResult = oneRound(playerSelection, computerSelection);
 
@@ -77,50 +93,54 @@ function oneRound(playerSelection, computerSelection) {
         oneRoundResultP.textContent = oneRoundResult;
         standings.appendChild(oneRoundResultP);
 
-        keepScore(oneRoundResult);
-        // mmm
-        
+        let runningTally = document.createElement('p');
+        let finalStandingsP = document.createElement('p');
 
+
+        if (oneRoundResult.includes("win")){
+          playerScore++;
+          playerRunningTotal.innerHTML = `Player score = ${playerScore}`;
+          if (playerScore === 5) {
+            let finalStandings = "Congratulations! You are the winner!";
+            finalStandingsP.textContent = finalStandings;
+            standings.appendChild(finalStandingsP);
+          }
+          return playerScore;
+          } else if (oneRoundResult.includes("lose")){
+            computerScore++;
+            computerRunningTotal.innerHTML = `Computer score = ${playerScore}`;
+            if (computerScore === 5) {
+              let finalStandings = "Bad luck! The computer was the victor";
+              finalStandingsP.textContent = finalStandings;
+              standings.appendChild(finalStandingsP);
+          
+            }
+      } 
      }); 
     });
   }
 
-completeOneRound();
+
+  
+
 
 
 
 // function to play the game
- function keepScore(oneRoundResult) {
-   let playerScore = 0;
-   let computerScore = 0;
-   let finalStandings = "";
-    //increment score for player and computer after each round
-    if (oneRoundResult.includes("win")){
-      playerScore++;
-      console.log("playerScore: " + playerScore);
-    } else if (oneRoundResult.includes("lose")){
-        computerScore++;
-        console.log("computerScore: " + computerScore);
-      } else if (oneRoundResult.includes("draw")){
-      }
-    console.log(oneRoundResult);
-    return oneRoundResult;
-    //} // end for
-    
-    /*if (playerScore > computerScore) {
-      finalStandings = "Congratulations! You are the winner!";
-    } else if (computerScore > playerScore) {
-        finalStandings = "Bad luck! The computer was the victor";
-        } else if (playerScore === computerScore) {
-            finalStandings = "It ends up a draw!";
-           } 
-    return finalStandings;
-    */
-  } // end game
-// Play the game and display result on page
-//let resultText = document.createTextNode(game());
-//para.appendChild(resultText);
+function playGame() {
+          
+          
+        
+  completeOneRound();
+  
+       
 
+
+} // end playgame
+ 
+    
+playGame();
+while(standings.firstChild) standings.firstChild.remove();
 </script>
 </body>
 </html>
